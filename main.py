@@ -3,6 +3,7 @@ __author__ = 'Giorgia'
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError, ConnectionFailure
 import csv
+import pprint
 
 """-----------------------------------------------------CONSTANTS DECLARATION-------------------------- """
 movieId = 'movieId'
@@ -22,6 +23,9 @@ movies_fields = ['_id', title, genres]
 ratings_fields = [userId, movieId, rating, timestamp]
 links_fields = [movieId, imdbId, tmdbId]
 tags_fields = [userId, movieId, tag, timestamp]
+"""
+def parse_int(string):
+    return int(''.join([x for x in string if x.isdigit()])) """
 
 """This function updates a collection adding new entries or creates it if it doesn't exists.
  It takes three parameters: collection which is the collection object to which we want to add entries; 
@@ -65,40 +69,83 @@ will be created"""
 client = MongoClient()
 db = client.moviesDB
 
-collection = db.movies
-collection.drop()
-
-csvfile = open('data/movies.csv', 'r', newline='\n', encoding='utf8')
-data = csv.reader(csvfile)
-
-
-for row in data:
-    i = 0
-    result = {}
-    for field in movies_fields:
-        result[field] = row[i]
-        i += 1
-    try:
-        collection.insert_one(result)
-    except BaseException as bwe:
-        print(bwe.details)
-
-
 collection = db.ratings
 collection.drop()
 csvfile = open('data/ratings.csv', 'r', newline='\n', encoding='utf8')
 data = csv.reader(csvfile)
 outcome = []
 
+next(data)
 for row in data:
     i = 0
-    result = {}
+    current_document_to_insert = {}
     for field in ratings_fields:
-        result[field] = row[i]
+        if field == 'rating':
+            try:
+                current_document_to_insert[field] = float(row[i])
+            except ValueError:
+                current_document_to_insert[field] = row[i]
+        else:
+            try:
+                current_document_to_insert[field] = int(row[i])
+            except ValueError:
+                current_document_to_insert[field] = row[i]
+
         i += 1
-    outcome.append(result)
+    outcome.append(current_document_to_insert)
 
 inserted = collection.insert_many(outcome)
-inserted.inserted_ids
+
+
+collection = db.movies
+collection.drop()
+
+csvfile = open('data/movies.csv', 'r', newline='\n', encoding='utf8')
+data = csv.reader(csvfile)
+outcome = []
+
+"""
+Deprecated since version 3.4: Mongodb 3.4 deprecates the 
+db.collection.group() method. Use db.collection.aggregate() 
+with the $group stage or db.collection.mapReduce() instead.
+"""
+
+
+pipeline = [{"$group": {"_id": "$movieId", "averageRate": {"$avg": "$rating"}, "count": {"$sum": 1}}}]
+cursor = db.ratings.aggregate(pipeline, cursor={})
+
+group_result_list = []
+for doc in cursor:
+    group_result_list.append(doc)
+
+
+def find(list_of_documents, identifier):
+    for d in list_of_documents:
+        if d['_id'] == identifier:
+            return d
+    return 0
+
+
+next(data)
+for row in data:
+    i = 0
+    current_document_to_insert = {}
+    for field in movies_fields:
+        try:
+            current_document_to_insert[field] = int(row[i])
+        except ValueError:
+            current_document_to_insert[field] = row[i]
+        i += 1
+    calculated_fields = find(group_result_list, current_document_to_insert['_id'])
+    if calculated_fields != 0:
+        current_document_to_insert['averageRate'] = calculated_fields['averageRate']
+        current_document_to_insert['count'] = calculated_fields['count']
+
+    outcome.append(current_document_to_insert)
+
+try:
+    db.movies.insert_many(outcome)
+except BaseException as bwe:
+        print(bwe.details)
 
 
