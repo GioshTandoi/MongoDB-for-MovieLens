@@ -1,12 +1,14 @@
+import sys
+
 __author__ = 'Giorgia'
 
 from pymongo import MongoClient
-from pymongo.errors import BulkWriteError, ConnectionFailure
+from pymongo.errors import BulkWriteError, ConnectionFailure, ServerSelectionTimeoutError, OperationFailure
 import csv
 from bson.dbref import DBRef
 
 """-----------------------------------------------------CONSTANTS DECLARATION-------------------------- """
-ID_Field='_id'
+ID_Field = '_id'
 movieId = 'movieId'
 title = 'title'
 genres = 'genres'
@@ -23,6 +25,7 @@ tag = 'tag'
 movies_fields = [ID_Field, title, genres]
 movie_field_avg = 'averageRating'
 movie_field_count = 'numberOfRatings'
+movie_field_tags = 'tags'
 ratings_fields = [userId, movieId, rating_value, timestamp]
 links_fields = [movieId, imdbId, tmdbId]
 tags_fields = [userId, movieId, tag, timestamp]
@@ -32,34 +35,37 @@ MOVIES_SOURCE_FILE = 'data/movies.csv'
 TAGS_SOURCE_FILE = 'data/tags.csv'
 LINKS_SOURCE_FILE = 'data/links.csv'
 
+movies_collection = "movies"
+movies_database = "moviesDB"
+
 """----------------------------------------- CONNECTING TO MONGODB---------------------------------------------
 MongoClient() retrieves the mongodb instance of the running server, which, in this case, is the default one, 
 running on the localhost on port 27017
 
 client.moviesDB retrieves a reference to a mongodb database instance (moviesDB). If the database doesn't exists it
-will be created"""
+will be created. Note that Mongodb creates instances lazily, which means that the database instance will be created
+only when effectively used. This is how Mongodb works with collections as well."""
 
-try:
-    client = MongoClient()
-    MOVIES_DB = client.moviesDB
-except ConnectionFailure:
-    print('something went wrong when trying to connect to mongodb')
-    exit(0)
-
+client = MongoClient()
+MOVIES_DB = client.moviesDB
 
 """
 -------------------------------------------LOADING RATINGS COLLECTION-------------------------------------------
 """
-
-MOVIES_DB.ratings.drop()  # this command drops the collection if exists, so that we can run this script any time.
+try:
+    MOVIES_DB.ratings.drop()  # this command drops the collection if exists, so that we can run this script any time.
 # Without this command mongodb would reject the insertion and the script would crash,
-# since it doesn't accept documents with an already existing ID
+# since it doesn't accept documents with an already existing ID.
+except ServerSelectionTimeoutError:
+    print("Unable to establish a connection.")
+    print(ServerSelectionTimeoutError.args)
+    sys.exit(1)
 
 
 with open(RATINGS_SOURCE_FILE, newline='\n', encoding='utf8') as csv_file:
     data = csv.reader(csv_file)
     outcome = []
-    next(data)  # with this command removes the header of the csv file
+    next(data)  # this command removes the header of the csv file
     """Now we can loop over the just read file. Since all the values in each line of the file are 
      read as string values, some cast operations are needed"""
     for row in data:
@@ -85,8 +91,14 @@ with open(RATINGS_SOURCE_FILE, newline='\n', encoding='utf8') as csv_file:
         outcome.append(current_document_to_insert)
 
 
-"""Now that we filled to outcome variable with a list of json-like objects, we can add the list to the ratings 
-collection"""
+"""Now that we filled the outcome variable with a list of json-like objects, we can add the list to the ratings 
+collection. This works only when the dataset to import is relatively small, just like in this case. That's because
+'outcome' is a run-time variable an so it is loaded in the main memory. This means that if the csv file that we are 
+reading from is muc bigger it may lead to an OutOfMemoryError and the script would crash. In such case we can 
+use the 'insert_one()' method instead, directly in the previous outer loop, once the 'current_document_to_insert'
+is ready. Note that PyMongo automatically split the batch into smaller sub-batches based
+on the maximum message size accepted by MongoDB, supporting very large bulk insert operations."""
+
 try:
     MOVIES_DB.ratings.insert_many(outcome)
 except BulkWriteError as bwe:
@@ -94,9 +106,6 @@ except BulkWriteError as bwe:
         raise
 
 """-------------------------------------------LOADING MOVIES COLLECTION----------------------------------------------"""
-
-MOVIES_DB.movies.drop()
-
 """
 The two lines below, execute a grouping query to the ratings collection, so that the calculated 
 values can then be added as fields of the movies collection. 
@@ -105,17 +114,30 @@ with the $group stage or db.collection.mapReduce() should be used instead.
 """
 
 pipeline = [{"$group": {"_id": "$movieId", "averageRating": {"$avg": "$rating"}, "count": {"$sum": 1}}}]
-cursor = MOVIES_DB.ratings.aggregate(pipeline, cursor={})
+try:
+    cursor = MOVIES_DB.ratings.aggregate(pipeline, cursor={})
+except OperationFailure:
+    print("Unable to establish a connection.")
+    print(OperationFailure.details)
+    sys.exit(1)
 
 """The method 'aggregate' retrieves a cursor object. We can loop over cursors only once, but since we need
 to loop over the resulted list for every document we add to the movies collection, this for loop
 creates a list object with the items in the cursor, so that we can loop over the items every time we want to."""
+
 group_result_list = []
 for doc in cursor:
     group_result_list.append(doc)
 
+try:
+    MOVIES_DB.movies.drop()
+except ServerSelectionTimeoutError:
+    print("Unable to establish a connection.")
+    print(ServerSelectionTimeoutError.args)
+    sys.exit(1)
 
-"""This for loop has been wrapped in a function so that we don't have to add an other for in the already two 
+
+"""This for loop has been wrapped into a function so that we don't have to add an other for in the already two 
  nested for loops int the lines below. """
 
 
@@ -149,6 +171,8 @@ with open(MOVIES_SOURCE_FILE, newline='\n', encoding='utf8') as csv_file:
 
         outcome.append(current_document_to_insert)
 
+
+"""As mentioned before, this only works when the file we are reading from is relatively small. """
 try:
     MOVIES_DB.movies.insert_many(outcome)
 except BulkWriteError as bwe:
@@ -157,8 +181,12 @@ except BulkWriteError as bwe:
 
 
 """-------------------------------------- LOADING TAGS COLLECTION----------------------------------------------------"""
-
-MOVIES_DB.tags.drop()
+try:
+    MOVIES_DB.tags.drop()
+except ServerSelectionTimeoutError:
+    print("Unable to establish a connection.")
+    print(ServerSelectionTimeoutError.args)
+    exit(1)
 
 with open(TAGS_SOURCE_FILE, newline='\n', encoding='utf8') as csv_file:
     data = csv.reader(csv_file)
@@ -192,7 +220,6 @@ def remove_movie_id_field(tag_document_list):
         del tag_document[movieId]
 
 
-movie_field_tags = 'tags'
 print(MOVIES_DB.movies.find())
 for movie in list(MOVIES_DB.movies.find()):
     tags = list(MOVIES_DB.tags.find({movieId: movie[ID_Field]}))
@@ -202,12 +229,15 @@ for movie in list(MOVIES_DB.movies.find()):
 
 
 """ ----------------------------------------------LOADING LINKS IN AN OTHER DATABASE-------------------------------"""
-movies_collection = "movies"
-movies_database = "moviesDB"
+
 WIDER_MOVIES_DB = client.widerMoviesDb
 
-
-WIDER_MOVIES_DB.links.drop()
+try:
+    WIDER_MOVIES_DB.links.drop()
+except ServerSelectionTimeoutError:
+    print(ServerSelectionTimeoutError.args)
+    print("Unable to establish a connection")
+    exit(1)
 
 with open(LINKS_SOURCE_FILE, newline='\n', encoding='utf8') as csv_file:
     data = csv.reader(csv_file)
@@ -246,3 +276,23 @@ first_query = list(MOVIES_DB.movies.find({movie_field_tags: {'$elemMatch': {tag_
 
 for row_result in first_query:
     print(row_result)
+
+
+""" from pymongo import WriteConcern
+>>> coll = db.get_collection(
+...     'test', write_concern=WriteConcern(w=3, wtimeout=1))
+>>> try:
+...     coll.bulk_write([InsertOne({'a': i}) for i in range(4)])
+... except BulkWriteError as bwe:
+...     pprint(bwe.details)
+...
+{'nInserted': 4,
+ 'nMatched': 0,
+ 'nModified': 0,
+ 'nRemoved': 0,
+ 'nUpserted': 0,
+ 'upserted': [],
+ 'writeConcernErrors': [{u'code': 64...
+                         u'errInfo': {u'wtimeout': True},
+                         u'errmsg': u'waiting for replication timed out'}],
+ 'writeErrors': []}"""
