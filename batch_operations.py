@@ -2,10 +2,11 @@ import sys
 
 __author__ = 'Giorgia'
 
-from pymongo import MongoClient
+from pymongo import MongoClient, InsertOne
 from pymongo.errors import BulkWriteError, ConnectionFailure, ServerSelectionTimeoutError, OperationFailure
 import csv
 from bson.dbref import DBRef
+from pymongo import WriteConcern
 
 """-----------------------------------------------------CONSTANTS DECLARATION-------------------------- """
 ID_Field = '_id'
@@ -278,21 +279,27 @@ for row_result in first_query:
     print(row_result)
 
 
-""" from pymongo import WriteConcern
->>> coll = db.get_collection(
-...     'test', write_concern=WriteConcern(w=3, wtimeout=1))
->>> try:
-...     coll.bulk_write([InsertOne({'a': i}) for i in range(4)])
-... except BulkWriteError as bwe:
-...     pprint(bwe.details)
+"""-----------------------------------More examples on CRUD operations ----------------------------------------------"""
+""" PyMongo also supports executing mixed bulk write operations. A batch of insert, update, and remove 
+operations can be executed together through bulk_write() method.
+"""
+
+movies = MOVIES_DB.get_collection(movies_collection, write_concern=WriteConcern(w=3, wtimeout=1))
+
+try:
+    movies.bulk_write([InsertOne({'a': i}) for i in range(4)])
+except BulkWriteError as bwe:
+    print(bwe.details)
+
+"""
 ...
 {'nInserted': 4,
- 'nMatched': 0,
- 'nModified': 0,
- 'nRemoved': 0,
- 'nUpserted': 0,
- 'upserted': [],
- 'writeConcernErrors': [{u'code': 64...
-                         u'errInfo': {u'wtimeout': True},
-                         u'errmsg': u'waiting for replication timed out'}],
- 'writeErrors': []}"""
+'nMatched': 0,
+'nModified': 0,
+'nRemoved': 0,
+'nUpserted': 0,
+'upserted': [],
+'writeConcernErrors': [{u'code': 64...
+                       u'errInfo': {u'wtimeout': True},
+                       u'errmsg': u'waiting for replication timed out'}],
+'writeErrors': []}"""
