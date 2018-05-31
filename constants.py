@@ -38,6 +38,13 @@ MOVIES_SOURCE_FILE = 'data/movies.csv'
 TAGS_SOURCE_FILE = 'data/tags.csv'
 LINKS_SOURCE_FILE = 'data/links.csv'
 
+overallRating = "overallRating"
+genre = "genre"
+occurrences = "occurrences"
+total_count = "total_count"
+
+user_level_operations_file = open('queries_results/user_level_operations' + '.txt', 'a')
+tags_level_operations_file = open("queries_results/tag_level_operations" + '.txt', 'a')
 
 """----------------------------------------- CONNECTING TO MONGODB---------------------------------------------
 MongoClient() retrieves the mongodb instance of the running server, which, in this case, is the default one, 
