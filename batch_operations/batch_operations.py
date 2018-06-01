@@ -5,7 +5,7 @@ from pymongo import WriteConcern, ReadPreference
 from pymongo.errors import OperationFailure
 from pymongo.read_concern import ReadConcern
 import constants
-from batch_operations_library import *
+from batch_operations.batch_operations_library import *
 
 """---------------------------------------CREATING COLLECTIONS----------------------------------------------"""
 """Creating collections in this way allows to change the values of read_preference, read_concern and write_concern, 

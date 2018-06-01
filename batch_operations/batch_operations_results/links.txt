@@ -1,0 +1,11 @@
+LINKS COLLECTION
+{'_id': ObjectId('5b04972d87977f1fec113fc7'), 'movieLensId': DBRef('movies', '1', 'moviesDB'), 'imdbId': 114709, 'tmdbId': 862}
+{'_id': ObjectId('5b04972d87977f1fec113fc8'), 'movieLensId': DBRef('movies', '2', 'moviesDB'), 'imdbId': 113497, 'tmdbId': 8844}
+{'_id': ObjectId('5b04972d87977f1fec113fc9'), 'movieLensId': DBRef('movies', '3', 'moviesDB'), 'imdbId': 113228, 'tmdbId': 15602}
+{'_id': ObjectId('5b04972d87977f1fec113fca'), 'movieLensId': DBRef('movies', '4', 'moviesDB'), 'imdbId': 114885, 'tmdbId': 31357}
+{'_id': ObjectId('5b04972d87977f1fec113fcb'), 'movieLensId': DBRef('movies', '5', 'moviesDB'), 'imdbId': 113041, 'tmdbId': 11862}
+{'_id': ObjectId('5b04972d87977f1fec113fcc'), 'movieLensId': DBRef('movies', '6', 'moviesDB'), 'imdbId': 113277, 'tmdbId': 949}
+{'_id': ObjectId('5b04972d87977f1fec113fcd'), 'movieLensId': DBRef('movies', '7', 'moviesDB'), 'imdbId': 114319, 'tmdbId': 11860}
+{'_id': ObjectId('5b04972d87977f1fec113fce'), 'movieLensId': DBRef('movies', '8', 'moviesDB'), 'imdbId': 112302, 'tmdbId': 45325}
+{'_id': ObjectId('5b04972d87977f1fec113fcf'), 'movieLensId': DBRef('movies', '9', 'moviesDB'), 'imdbId': 114576, 'tmdbId': 9091}
+{'_id': ObjectId('5b04972d87977f1fec113fd0'), 'movieLensId': DBRef('movies', '10', 'moviesDB'), 'imdbId': 113189, 'tmdbId': 710}

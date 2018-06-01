@@ -1,0 +1,11 @@
+MOVIES COLLECTION
+{'_id': 1, 'title': 'Toy Story (1995)', 'genres': ['Adventure', 'Animation', 'Children', 'Comedy', 'Fantasy'], 'averageRating': 3.87, 'numberOfRatings': 247, 'tags': [{'_id': ObjectId('5b04970b87977f1fec0fb6e9'), 'userId': 501, 'tag': 'Pixar', 'timestamp': 1292956344}]}
+{'_id': 2, 'title': 'Jumanji (1995)', 'genres': ['Adventure', 'Children', 'Fantasy'], 'averageRating': 3.4, 'numberOfRatings': 107}
+{'_id': 3, 'title': 'Grumpier Old Men (1995)', 'genres': ['Comedy', 'Romance'], 'averageRating': 3.16, 'numberOfRatings': 59}
+{'_id': 4, 'title': 'Waiting to Exhale (1995)', 'genres': ['Comedy', 'Drama', 'Romance'], 'averageRating': 2.38, 'numberOfRatings': 13}
+{'_id': 5, 'title': 'Father of the Bride Part II (1995)', 'genres': ['Comedy'], 'averageRating': 3.27, 'numberOfRatings': 56, 'tags': [{'_id': ObjectId('5b04970b87977f1fec0fb663'), 'userId': 431, 'tag': 'steve martin', 'timestamp': 1140455432}]}
+{'_id': 6, 'title': 'Heat (1995)', 'genres': ['Action', 'Crime', 'Thriller'], 'averageRating': 3.88, 'numberOfRatings': 104}
+{'_id': 7, 'title': 'Sabrina (1995)', 'genres': ['Comedy', 'Romance'], 'averageRating': 3.28, 'numberOfRatings': 53}
+{'_id': 8, 'title': 'Tom and Huck (1995)', 'genres': ['Adventure', 'Children'], 'averageRating': 3.8, 'numberOfRatings': 5}
+{'_id': 9, 'title': 'Sudden Death (1995)', 'genres': ['Action'], 'averageRating': 3.15, 'numberOfRatings': 20}
+{'_id': 10, 'title': 'GoldenEye (1995)', 'genres': ['Action', 'Adventure', 'Thriller'], 'averageRating': 3.45, 'numberOfRatings': 122}

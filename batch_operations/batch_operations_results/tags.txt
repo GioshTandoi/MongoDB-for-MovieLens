@@ -1,0 +1,11 @@
+TAGS COLLECTION
+{'_id': ObjectId('5b04970b87977f1fec0fb413'), 'userId': 15, 'movieId': 339, 'tag': "sandra 'boring' bullock", 'timestamp': 1138537770}
+{'_id': ObjectId('5b04970b87977f1fec0fb414'), 'userId': 15, 'movieId': 1955, 'tag': 'dentist', 'timestamp': 1193435061}
+{'_id': ObjectId('5b04970b87977f1fec0fb415'), 'userId': 15, 'movieId': 7478, 'tag': 'Cambodia', 'timestamp': 1170560997}
+{'_id': ObjectId('5b04970b87977f1fec0fb416'), 'userId': 15, 'movieId': 32892, 'tag': 'Russian', 'timestamp': 1170626366}
+{'_id': ObjectId('5b04970b87977f1fec0fb417'), 'userId': 15, 'movieId': 34162, 'tag': 'forgettable', 'timestamp': 1141391765}
+{'_id': ObjectId('5b04970b87977f1fec0fb418'), 'userId': 15, 'movieId': 35957, 'tag': 'short', 'timestamp': 1141391873}
+{'_id': ObjectId('5b04970b87977f1fec0fb419'), 'userId': 15, 'movieId': 37729, 'tag': 'dull story', 'timestamp': 1141391806}
+{'_id': ObjectId('5b04970b87977f1fec0fb41a'), 'userId': 15, 'movieId': 45950, 'tag': 'powerpoint', 'timestamp': 1169616291}
+{'_id': ObjectId('5b04970b87977f1fec0fb41b'), 'userId': 15, 'movieId': 100365, 'tag': 'activist', 'timestamp': 1425876220}
+{'_id': ObjectId('5b04970b87977f1fec0fb41c'), 'userId': 15, 'movieId': 100365, 'tag': 'documentary', 'timestamp': 1425876220}

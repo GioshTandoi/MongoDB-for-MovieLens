@@ -1,0 +1,11 @@
+RATINGS COLLECTION
+{'_id': ObjectId('5b04970c87977f1fec0fb923'), 'userId': 1, 'movieId': 31, 'rating': 2.5, 'timestamp': 1260759144}
+{'_id': ObjectId('5b04970c87977f1fec0fb924'), 'userId': 1, 'movieId': 1029, 'rating': 3.0, 'timestamp': 1260759179}
+{'_id': ObjectId('5b04970c87977f1fec0fb925'), 'userId': 1, 'movieId': 1061, 'rating': 3.0, 'timestamp': 1260759182}
+{'_id': ObjectId('5b04970c87977f1fec0fb926'), 'userId': 1, 'movieId': 1129, 'rating': 2.0, 'timestamp': 1260759185}
+{'_id': ObjectId('5b04970c87977f1fec0fb927'), 'userId': 1, 'movieId': 1172, 'rating': 4.0, 'timestamp': 1260759205}
+{'_id': ObjectId('5b04970c87977f1fec0fb928'), 'userId': 1, 'movieId': 1263, 'rating': 2.0, 'timestamp': 1260759151}
+{'_id': ObjectId('5b04970c87977f1fec0fb929'), 'userId': 1, 'movieId': 1287, 'rating': 2.0, 'timestamp': 1260759187}
+{'_id': ObjectId('5b04970c87977f1fec0fb92a'), 'userId': 1, 'movieId': 1293, 'rating': 2.0, 'timestamp': 1260759148}
+{'_id': ObjectId('5b04970c87977f1fec0fb92b'), 'userId': 1, 'movieId': 1339, 'rating': 3.5, 'timestamp': 1260759125}
+{'_id': ObjectId('5b04970c87977f1fec0fb92c'), 'userId': 1, 'movieId': 1343, 'rating': 2.0, 'timestamp': 1260759131}

@@ -42,10 +42,11 @@ overallRating = "overallRating"
 genre = "genre"
 occurrences = "occurrences"
 total_count = "total_count"
+max_count = "max_count"
 
 user_level_operations_file = open('queries_results/user_level_operations' + '.txt', 'a')
 tags_level_operations_file = open("queries_results/tag_level_operations" + '.txt', 'a')
-
+movies_level_operations_file = open("queries_results/movies_level_operations" + '.txt', 'a')
 """----------------------------------------- CONNECTING TO MONGODB---------------------------------------------
 MongoClient() retrieves the mongodb instance of the running server, which, in this case, is the default one, 
 running on the localhost on port 27017
