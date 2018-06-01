@@ -1,0 +1,26 @@
+These are the preferences of user n. 1:
+[   {'genre': 'Western', 'overallRating': 3.0, 'userId': 1},
+    {'genre': 'Crime', 'overallRating': 2.5, 'userId': 1},
+    {'genre': 'Fantasy', 'overallRating': 2.12, 'userId': 1},
+    {'genre': 'Comedy', 'overallRating': 2.0, 'userId': 1},
+    {'genre': 'Sci-Fi', 'overallRating': 2.4, 'userId': 1},
+    {'genre': 'Adventure', 'overallRating': 2.17, 'userId': 1},
+    {'genre': 'Action', 'overallRating': 2.8, 'userId': 1},
+    {'genre': 'Animation', 'overallRating': 2.0, 'userId': 1},
+    {'genre': 'Romance', 'overallRating': 3.5, 'userId': 1},
+    {'genre': 'Horror', 'overallRating': 3.0, 'userId': 1},
+    {'genre': 'War', 'overallRating': 2.0, 'userId': 1},
+    {'genre': 'Musical', 'overallRating': 3.0, 'userId': 1},
+    {'genre': 'Thriller', 'overallRating': 2.83, 'userId': 1},
+    {'genre': 'Children', 'overallRating': 2.5, 'userId': 1},
+    {'genre': 'Drama', 'overallRating': 2.57, 'userId': 1}]
+
+
+*******************
+User-preferences collection loaded correctly!
+
+
+These are the top 3 genres for user n. 1
+[   {'genre': 'Romance', 'overallRating': 3.5},
+    {'genre': 'Horror', 'overallRating': 3.0},
+    {'genre': 'Western', 'overallRating': 3.0}]

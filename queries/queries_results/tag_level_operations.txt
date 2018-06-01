@@ -1,0 +1,15 @@
+This is the average rating of the movies that are related with the tag "love":
+3.81
+These are different ratings values related to the tag "love", with all their occurrences:
+[   {'_id': 1.5, 'occurrences': 7},
+    {'_id': 4.5, 'occurrences': 92},
+    {'_id': 2.5, 'occurrences': 24},
+    {'_id': 3.0, 'occurrences': 54},
+    {'_id': 3.5, 'occurrences': 75},
+    {'_id': 2.0, 'occurrences': 26},
+    {'_id': 0.5, 'occurrences': 9},
+    {'_id': 1.0, 'occurrences': 4},
+    {'_id': 4.0, 'occurrences': 158},
+    {'_id': 5.0, 'occurrences': 92}]
+This is the number of ratings related to the tag "love":
+541
