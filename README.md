@@ -12,9 +12,9 @@ They are useful scripts that anybody startitng to learn how to use MongoDB can u
 Specifically, they make exstensive use of the MongoDB Aggregation Pipeline. 
 
 The project is structured as follows:
-- data: contains the MovieLens dataset, consisting in 4 .csv files.
-- constants: a .py containing constant declarations used throughout the whole project.
-- batch_operations: these are scripts which mainly contain CRUD operations that populate 
+1.  DATA: contains the MovieLens dataset, consisting in 4 .csv files.
+2.  CONSTANTS: a .py containing constant declarations used throughout the whole project.
+3.  BATCH_OPERATIONS: these are scripts which mainly contain CRUD operations that populate 
 the MongoDB Database and to structure the dataset inside it. They are inteded to run as batch operations. 
 The batch_operations.py script executes the db population and adds calculated nested fields, using methods implemented
 in the batch_operations_library.py script. It also performs a query to the "movies" collection, which selects
@@ -23,7 +23,16 @@ The batch_operations_log.txt file contains the results of the
 different operations performed in the batch_operations.py script in a "success/failed" format. 
 The batch_operations_results directory contains the printed version of the collections created (to a maximum of 
 10 records per collection), and the query's result.  
+The diagram below pictures how the dataset has been structured at this stage. 
 
-![alt text](https://drive.google.com/open?id=1EGsLVw8BJG2p1_sr-ZBKYQpN-WQXyv3S)
+![alt text](https://github.com/GioshTandoi/MongoDB/blob/master/DBStructures.png)
   
+4. QUERIES: this directory contains scripts that perform different queries on every collection
+of the DBs created in the previous step. These queries make an extesive use of the MongoDB Aggregation Pipeline. 
+The queries_execution.py executes the queries and prints the results in the .txt files contained in the 
+queries_results directory, using methods implemented in the queries_library.py script. Each script 
+contain a detailed description of the queries performed. 
+5. ONLINE_OPERATIONS: this script contains some functions that can be called when 
+inserting operations happen on-line. it contains detailes comments on how it works, and how 
+it takes into account the links existing between the different collections. 
 
