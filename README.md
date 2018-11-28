@@ -1,13 +1,14 @@
 # MongoDB
-Python scripts for practicing with mongoDB
-
 Python version: 3.6.3
 
 MongoDB version: 3.6
 
 pymongo version: 3.6.1
 
-The dataset used in these scripts where retreived from the GroupLens website (Univeristy of Minnesota). 
+This project has been realized as part of the final assignment of the course "Databases Design with 
+state-of-the-art models" at the University of Bari, and consists in the design of a movie database. 
+
+The dataset used in these scripts are retreived from the GroupLens website (Univeristy of Minnesota). 
 For any further information please visit https://grouplens.org/datasets/.
 
 They are useful scripts that anybody startitng to learn how to use MongoDB can use as an inspiration. 
