@@ -1,4 +1,4 @@
-# MongoDB
+# Database Design and Implementation for MovieLens dataset with MongoDB
 Python version: 3.6.3
 
 MongoDB version: 3.6
